@@ -14,7 +14,6 @@ app.set('port', (process.env.PORT || 5000))
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.json({ verify: verifyRequestSignature }));
-
 // Process application/json
 app.use(bodyParser.json())
 
@@ -108,6 +107,10 @@ function setupGreetingText(res) {
             {
                 "locale": "default",
                 "text": "Hi {{user_full_name}}! wellcome to my chatbot"
+            },
+            {
+                "locale": "vi_VN",
+                "text": "Xin chào {{user_full_name}}! Đây là chatbot trả lời tự động"
             }
         ]
     };
@@ -140,30 +143,107 @@ function setupPersistentMenu(res) {
                 "composer_input_disabled": false,
                 "call_to_actions": [
                     {
-                        "title": "Tuyển sinh 2018",
                         "type": "nested",
+                        "title": "Thông tin",
                         "call_to_actions": [
                             {
+                                "type": "nested",
                                 "title": "Giới thiệu",
-                                "type": "postback",
-                                "payload": "GIOI_THIEU_PAYLOAD"
+                                "call_to_actions": [
+                                    {
+                                        "type": "web_url",
+                                        "title": "Ngành công nghệ thông tin",
+                                        "url": "http://cntt.caothang.edu.vn/tam-nhin-su-mang/",
+                                        "webview_height_ratio": "full"
+                                    },
+                                    {
+                                        "type": "web_url",
+                                        "title": "Bộ môn tin học",
+                                        "url": "http://cntt.caothang.edu.vn/gioi-thieu-chung/",
+                                        "webview_height_ratio": "full"
+                                    },
+                                    {
+                                        "type": "web_url",
+                                        "title": "Khoa Điện Tử - Tin Học",
+                                        "url": "http://dtth.caothang.edu.vn/index.php/gioi-thieu/lich-su-phat-trien",
+                                        "webview_height_ratio": "full"
+                                    },
+                                    {
+                                        "type": "web_url",
+                                        "title": "Trường CĐKT Cao Thắng",
+                                        "url": "http://caothang.edu.vn/bai_viet/Gioi-thieu-chung-5",
+                                        "webview_height_ratio": "full"
+                                    }
+                                ]
                             },
                             {
-                                "title": "Cách đăng ký",
-                                "type": "postback",
-                                "payload": "DANG_KY_XET_TUYEN_PAYLOAD"
+                                "type": "nested",
+                                "title": "Tuyến sinh 2018",
+                                "call_to_actions": [
+                                    {
+                                        "type": "postback",
+                                        "title": "Ngành công nghệ thông tin",
+                                        "payload": "TUYEN_SINH_CNTT_PAYLOAD"
+                                    },
+                                    {
+                                        "type": "postback",
+                                        "title": "Hướng dẫn đăng ký",
+                                        "payload": "DANG_KY_XET_TUYEN_PAYLOAD"
+                                    },
+                                    {
+                                        "type": "postback",
+                                        "title": "Những cầu hỏi thường gặp",
+                                        "payload": "CAU_HOI_PAYLOAD"
+                                    },
+                                    {
+                                        "type": "postback",
+                                        "title": "Điểm chuẩn 2018",
+                                        "payload": "DIEM_CHUAN_PAYLOAD"
+                                    }
+                                ]
                             },
                             {
-                                "title": "Những câu hỏi thường gặp",
-                                "type": "postback",
-                                "payload": "CAU_HOI_PAYLOAD"
+                                "type": "web_url",
+                                "title": "Thời khóa biểu",
+                                "url": "http://daotao.caothang.edu.vn/bai-viet/63-Thoi-khoa-bieu-hoc-ky-2-nam-hoc-2017-2018-a4e96b03feaf3b588e2e07a62a6bf78d.html",
+                                "webview_height_ratio": "full"
+                            },
+                            {
+                                "type": "web_url",
+                                "title": "Tra cứu kết quả học tập",
+                                "url": "http://cntt.caothang.edu.vn/tra-cuu-ket-qua-hoc-tap/",
+                                "webview_height_ratio": "full"
+                            },
+                            {
+                                "type": "nested",
+                                "title": "Thông tin khác",
+                                "call_to_actions": [
+                                    {
+                                        "type": "web_url",
+                                        "title": "Trung tâm tin học",
+                                        "url": "http://ttth.caothang.edu.vn/",
+                                        "webview_height_ratio": "full"
+                                    },
+                                    {
+                                        "type": "web_url",
+                                        "title": "Trung tâm ngoại ngữ",
+                                        "url": "http://englishcenter.caothang.edu.vn/",
+                                        "webview_height_ratio": "full"
+                                    },
+                                    {
+                                       "type": 'web_url',
+                                       "title": "Khoa giáo dục đại cương",
+                                       "url": "http://gddc.caothang.edu.vn/",
+                                       "webview_height_ratio": "full"
+                                    }
+                                ]
                             }
                         ]
                     },
                     {
                         "type": "web_url",
                         "title": "Website bộ môn tin học",
-                        "url": "http://www.cntt.caothang.edu.vn",
+                        "url": "http://www.cntt.caothang.edu.vn/",
                         "webview_height_ratio": "full"
                     }
                 ]
@@ -179,8 +259,7 @@ function setupPersistentMenu(res) {
     },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                // Print out the response body
-                //res.send('setup Persistent menu');
+
                 console.log("setup Persistent menu");
 
             } else {
@@ -207,8 +286,6 @@ function setupGetStartedButton(res) {
     },
         function (error, response, body) {
             if (!error && response.statusCode == 200) {
-                // Print out the response body
-                //res.send('setup nút bắt đầu');
                 console.log("setup GetStarted button");
 
 
@@ -258,33 +335,31 @@ function receivedMessage(event) {
     var senderID = event.sender.id;
     var message = event.message;
     var intents = firstEntity(message.nlp, 'intent');
-    var nganh = firstEntity(message.nlp, 'nganh') || {
-        
-    };
-    console.log(intents);
+    var nganh = firstEntity(message.nlp, 'nganh');
     if (!intents) {
-        var msg = "chúng tôi sẽ sớm trả lời thắt mắt của bạn"
+        var msg = " Cám ơn bạn! \n" +
+        "Chúng tôi sẽ sớm trả lời thắt mắc của bạn về chủ đề \"" + message.text + "\"";
+        //guiMail(message.text, senderID);
         sendTextMessage(senderID, msg);
         return;
     }
-            MongoClient.connect(url, function (err, db) {
-                if (err) throw err;
-                var dbo = db.db("dbChatBot_Demo2");//chọn db
-                var query = { intent: intents.value };
-                dbo.collection(nganh.value).findOne(query, function (err, result) {
-                    if (err) throw err;
-                    else if (result) {//db truy vấn có kq trả về không
-                        console.log('query ok!');
-                        var msg = result.url;
-                        var title = result.title;
-                        //sendTextMessage(senderID, msg);
-                        sendButtonMessage(senderID,msg,title,'nope');
-                    }
-                    db.close();
-                });
-            });
-}      
-    
+    MongoClient.connect(url, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("dbChatBot_Demo2");//chọn db
+        var query = { intent: intents.value };
+        dbo.collection('cong_nghe_thong_tin').findOne(query, function (err, result) {
+            if (err) throw err;
+            else if (result) {//db truy vấn có kq trả về không
+                console.log('query ok!');
+                var msg = result.url;
+                var title = result.title;
+                sendButtonMessage(senderID, msg, title, 'nope');
+            }
+            db.close();
+        });
+    });
+}
+
 
 function receivedPostback(event) {
     var senderID = event.sender.id;
@@ -293,24 +368,38 @@ function receivedPostback(event) {
     var payload = event.postback.payload;
     switch (payload) {
         case 'GET_STARTED_PAYLOAD':
-            var msg = " chào cưng nha! \n" +
-                " anh mày là bot trả lời tự động\n";
+            var msg = " Chào bạn! \n" +
+                "Bạn cần giúp đỡ việc gì\n" +
+                "Hãy tham khảo các thông tin có sẵn ở phần menu";
             sendTextMessage(senderID, msg);
             break;
         case 'DANG_KY_XET_TUYEN_PAYLOAD':
             var msg = "http://caothang.edu.vn/bai_viet/Tuyen-sinh-2018-25";
-            sendButtonMessage(senderID, msg, "Cách đăng ký xét tuyển của các ngành nghề", payload)
+            var title = 'Cách đăng ký xét tuyển của các ngành nghề';
+            sendButtonMessage(senderID, msg, title, payload)
             break;
         case 'GIOI_THIEU_PAYLOAD':
             var msg = "http://caothang.edu.vn/bai_viet/Thong-tin-can-biet-18";
-            sendButtonMessage(senderID, msg, "Giới thiệu về các bậc học, ngành nghề trường sẽ tuyến sinh", payload)
+            var title = "Giới thiệu về các bậc học, ngành nghề trường sẽ tuyến sinh";
+            sendButtonMessage(senderID, msg, title, payload)
             break;
         case 'CAU_HOI_PAYLOAD':
             var msg = "http://caothang.edu.vn/bai_viet/18-Nhung-cau-hoi-thuong-gap-ve-tuyen-sinh-nam-2018-559.html";
-            sendButtonMessage(senderID, msg, "Những câu hỏi thường gặp trong tuyển sinh 2018", payload)
+            var title = "Những câu hỏi thường gặp trong tuyển sinh 2018";
+            sendButtonMessage(senderID, msg, title, payload)
             break;
+        case 'TUYEN_SINH_CNTT_PAYLOAD':
+            var msg;
+            var title ="Tuyển sinh ngành công nghệ thông tin năm 2018";
+            sendButtonMessage(senderID,msg,title,payload);
+            break;
+
+        // case 'DIEM_CHUAN_PAYLOAD':
+        //     var msg; DIEM_CHUAN_PAYLOAD
+        //     var title;
+        //     break;
         default:
-            var msg = "cái này chưa xử lý";
+            var msg = "Thông tin này sẽ được sớm cập nhật, vui lòng thử lại sau";
             sendTextMessage(senderID, msg);
             break;
     }
@@ -359,7 +448,7 @@ function sendButtonMessage(recipientId, url, title, payload) {
                 }
             };
             break;
-        case 'GIOI_THIEU_PAYLOAD':
+        case 'TUYEN_SINH_CNTT_PAYLOAD':
             var messageData = {
                 recipient: {
                     id: recipientId
@@ -371,23 +460,40 @@ function sendButtonMessage(recipientId, url, title, payload) {
                             template_type: "generic",
                             elements: [
                                 {
-                                    title: title,
-                                    image_url: "https://scontent.fsgn5-5.fna.fbcdn.net/v/t1.0-1/p200x200/29313930_922577844566702_3312368204189270016_n.png?_nc_cat=0&oh=1581cbf49833a4b4dd63f637ca53af6a&oe=5BEC6895",
-                                    buttons: [
+                                    "title": "THÔNG BÁO TUYỂN SINH CAO ĐẲNG CÔNG NGHỆ THÔNG TIN CHÍNH QUY NĂM 2018",
+                                    "image_url": "https://scontent.fsgn5-5.fna.fbcdn.net/v/t1.0-1/p200x200/29313930_922577844566702_3312368204189270016_n.png?_nc_cat=0&oh=1581cbf49833a4b4dd63f637ca53af6a&oe=5BEC6895",
+                                    "buttons": [
                                         {
-                                            type: "web_url",
-                                            url: "http://caothang.edu.vn/bai_viet/18-Gioi-thieu-cac-nganh_nghe_-Bac-Cao-dang-cac-nganh-78.html",
-                                            title: "Bậc Cao đẳng"
+                                            "type": "web_url",
+                                            "url": "http://cntt.caothang.edu.vn/thong-bao-tuyen-sinh-cao-dang-cong-nghe-thong-tin-chinh-quy-nam-2018/",
+                                            "title": "Xem chi tiết"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "THÔNG BÁO TUYỂN SINH CAO ĐẲNG QUẢN TRỊ MẠNG MÁY TÍNH VÀ SỬA CHỮA LẮP RÁP MÁY TÍNH CHÍNH QUY NĂM 2018",
+                                    "image_url": "https://scontent.fsgn5-5.fna.fbcdn.net/v/t1.0-1/p200x200/29313930_922577844566702_3312368204189270016_n.png?_nc_cat=0&oh=1581cbf49833a4b4dd63f637ca53af6a&oe=5BEC6895",
+                                    "buttons": [
+                                        {
+                                            "type": "web_url",
+                                            "url": "http://cntt.caothang.edu.vn/thong-bao-tuyen-sinh-cao-dang-quan-tri-mang-may-tinh-chinh-quy-nam-2018/",
+                                            "title": "Cao Đẳng Quảng Trị Mạng"
                                         },
                                         {
-                                            type: "web_url",
-                                            url: "http://caothang.edu.vn/bai_viet/18-Gioi-thieu-cac-nganh_nghe_-Bac-Cao-dang-cac-nghe-552.html",
-                                            title: "Bậc Cao đẳng nghề"
-                                        },
+                                            "type": "web_url",
+                                            "url": "http://cntt.caothang.edu.vn/thong-bao-tuyen-sinh-cao-dang-sua-chua-lap-rap-may-tinh-chinh-quy-nam-2018/",
+                                            "title": "Cao Đẳng SCLRMT"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "title": "THÔNG BÁO TUYỂN SINH TRUNG CẤP CHUYÊN NGHIỆP CÔNG NGHỆ THÔNG TIN NĂM 2018",
+                                    "image_url": "https://scontent.fsgn5-5.fna.fbcdn.net/v/t1.0-1/p200x200/29313930_922577844566702_3312368204189270016_n.png?_nc_cat=0&oh=1581cbf49833a4b4dd63f637ca53af6a&oe=5BEC6895",
+                                    "buttons": [
                                         {
-                                            type: "web_url",
-                                            url: "http://caothang.edu.vn/bai_viet/18-Gioi-thieu-cac-nganh-bac-Trung-cap-553.html",
-                                            title: "Bậc Trung cấp"
+                                            "type": "web_url",
+                                            "url": "http://cntt.caothang.edu.vn/thong-bao-tuyen-sinh-trung-cap-chuyen-nghiep-cong-nghe-thong-tin-nam-2018/",
+                                            "title": "Xem chi tiết"
                                         }
                                     ]
                                 }
@@ -419,25 +525,25 @@ function sendButtonMessage(recipientId, url, title, payload) {
             }
             break;
         default:
-        var messageData = {
-            recipient: {
-                id: recipientId
-            },
-            message: {
-                attachment: {
-                    type: "template",
-                    payload: {
-                        template_type: "button",
-                        text: title,
-                        buttons: [{
-                            type: "web_url",
-                            url: url,
-                            title: "Truy cập"
-                        }]
+            var messageData = {
+                recipient: {
+                    id: recipientId
+                },
+                message: {
+                    attachment: {
+                        type: "template",
+                        payload: {
+                            template_type: "button",
+                            text: title,
+                            buttons: [{
+                                type: "web_url",
+                                url: url,
+                                title: "Truy cập"
+                            }]
+                        }
                     }
                 }
             }
-        }
             break;
     }
 
@@ -477,5 +583,43 @@ function callSendAPI(messageData) {
             console.error(response);
             console.error(error);
         }
+    });
+}
+
+//gửi mail
+const nodemailer = require('nodemailer'); // khai báo sử dụng module nodemailer
+function guiMail(msg, nguoigui) {
+    nodemailer.createTestAccount((err, account) => {
+        // create reusable transporter object using the default SMTP transport
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 456,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: 'mrcafein@gmail.com', // generated ethereal user
+                pass: '01682665238ovi' // generated ethereal password
+            }
+        });
+        // setup email data with unicode symbols
+        let mailOptions = {
+            from: '"Phong 👻" <foo@example.com>', // sender address
+            to: 'vophong2309@gmail.com', // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: 'Hello world?', // plain text body
+            html: '<b>Hello world?</b>' // html body
+        };
+    
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+            // Preview only available when sending through an Ethereal account
+            console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    
+            // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+            // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+        });
     });
 }
